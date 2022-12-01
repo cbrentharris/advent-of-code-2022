@@ -3,6 +3,7 @@ import days
 from aocd.models import Puzzle, User
 from datetime import date
 import json
+from pathlib import Path
 
 day_template = """\"\"\"
 {title}
@@ -61,3 +62,8 @@ def create_day_files(current_day = date.today(), session=None):
 
     with open(day_input_file_name, 'w') as input_file:
         input_file.write(puzzle.input_data)
+
+if __name__ == "__main__":
+    days_path = Path(os.path.dirname(days.__file__))
+    session_id = json.load(open(os.path.join(str(days_path.parent), ".config", "session.json"), "r"))["sessionId"]
+    create_day_files(session=session_id)
