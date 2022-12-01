@@ -1,31 +1,40 @@
 import os
 import days
-from aocd import get_data
+from aocd.models import Puzzle, User
 from datetime import date
+import json
 
 day_template = """
 \"\"\"
-A stub method to execute for the new aoc day
+{title}
 \"\"\"
-def part_1(input):
-    pass
+def part_1(input: list[str]) -> str:
+    return ""
 
-def part_2(input):
-    pass
+def part_2(input: list[str]) -> str:
+    return ""
 """
 
 test_day_template = """
 import unittest
 from day{day} import part_1, part_2
 
+example_data = {example_data}
+
 class TestDay{day}(unittest.TestCase):
-    def test_day{day}_part_1(self):
+    def test_day{day}_part_1_example(self) -> None:
+        self.assertEqual(part_1(example_data), "")
+
+    def test_day{day}_part_1(self) -> None:
         with open("./input_day{day}.txt", "r") as input_file:
-            part_1(input_file.readlines())
-            
-    def test_day{day}_part_2(self):
+            self.assertEqual(part_1(input_file.readlines()), "")
+
+    def test_day{day}_part_2_example(self) -> None:
+        self.assertEqual(part_2(example_data), "")
+
+    def test_day{day}_part_2(self) -> None:
         with open("./input_day{day}.txt", "r") as input_file:
-            part_2(input_file.readlines())
+            self.assertEqual(part_2(input_file.readlines()), "")
 
 if __name__ == '__main__':
     unittest.main()
@@ -37,12 +46,14 @@ def create_day_files(current_day = date.today(), session=None):
     days_file_name = os.path.join(days_dir, "day" + day_num + ".py")
     test_days_file_name = os.path.join(days_dir, "test_day" + day_num + ".py")
 
+    puzzle = Puzzle(year=current_day.year, day=current_day.day, user=User(session))
+
     if any(map(os.path.exists, [days_file_name, days_file_name, test_days_file_name])):
         raise Exception("Files already exist")
     with open(days_file_name, 'w') as days_file:
-        days_file.write(day_template)
+        days_file.write(day_template.format(title=puzzle.title))
     with open(test_days_file_name, 'w') as test_days_file:
-        test_days_file.write(test_day_template.format(day=day_num))
+        test_days_file.write(test_day_template.format(day=day_num, example_data=json.dumps(puzzle.example_data.split("\n"))))
 
     with open(day_input_file_name, 'w') as input_file:
-        input_file.write(get_data(year=current_day.year, day=current_day.day, session=session))
+        input_file.write(puzzle.input_data)

@@ -1,11 +1,11 @@
 import heapq
 
 """
-A stub method to execute for the new aoc day
+Calorie Counting
 """
 
 
-def part_1(input: list[str]) -> int:
+def part_1(input: list[str]) -> str:
     total = 0
     max_total = 0
     for line in stripped(input):
@@ -14,10 +14,11 @@ def part_1(input: list[str]) -> int:
             total = 0
         else:
             total += int(line)
-    return max_total
+    max_total = max(total, max_total)
+    return str(max_total)
 
 
-def part_2(input: list[str]) -> int:
+def part_2(input: list[str]) -> str:
     heap = []
     running_total = 0
     for line in stripped(input):
@@ -26,8 +27,10 @@ def part_2(input: list[str]) -> int:
             running_total = 0
         else:
             running_total += int(line)
+    if running_total != 0:
+        push_max(heap, running_total)
     top_n = 3
-    return sum(map(lambda x: pop_max(heap), range(top_n)))
+    return str(sum(map(lambda x: pop_max(heap), range(top_n))))
 
 
 def stripped(input: list[str]) -> list[str]:
