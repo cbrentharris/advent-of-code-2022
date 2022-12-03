@@ -1,4 +1,5 @@
 from typing import Iterable, Tuple
+from days.local_functools import chain
 
 """
 Rock Paper Scissors
@@ -121,10 +122,3 @@ def score_correctly(encrypted_strategy_guide: Iterable[Tuple[str, str]]) -> Iter
         return OUTCOME_SCORE[outcome] + PLAY_SCORE[user_play]
 
     return map(scorer, encrypted_strategy_guide)
-
-
-def chain(i, *functions):
-    result = i
-    for f in functions:
-        result = f(result)
-    return result

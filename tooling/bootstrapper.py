@@ -44,7 +44,9 @@ class TestDay{day}(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 """
-def create_day_files(current_day = date.today(), session=None):
+
+
+def create_day_files(current_day=date.today(), session=None):
     day_num = str(current_day.day)
     days_dir = os.path.dirname(days.__file__)
     day_input_file_name = os.path.join(days_dir, "input_day" + day_num + ".txt")
@@ -58,10 +60,12 @@ def create_day_files(current_day = date.today(), session=None):
     with open(days_file_name, 'w') as days_file:
         days_file.write(day_template.format(title=puzzle.title))
     with open(test_days_file_name, 'w') as test_days_file:
-        test_days_file.write(test_day_template.format(day=day_num, example_data=json.dumps(puzzle.example_data.split("\n"))))
+        test_days_file.write(
+            test_day_template.format(day=day_num, example_data=json.dumps(puzzle.example_data.split("\n"))))
 
     with open(day_input_file_name, 'w') as input_file:
         input_file.write(puzzle.input_data)
+
 
 if __name__ == "__main__":
     days_path = Path(os.path.dirname(days.__file__))
