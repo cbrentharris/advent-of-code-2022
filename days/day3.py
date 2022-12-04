@@ -40,4 +40,4 @@ def part_2(rucksacks: list[str]) -> str:
 
 
 def prioritization_valuer(c: str) -> int:
-    return ord(c) - 96 if c.islower() else ord(c) - 64 + 26
+    return (ord(c) - ord('a') if c.islower() else ord(c) - ord('A') + 26) + 1
