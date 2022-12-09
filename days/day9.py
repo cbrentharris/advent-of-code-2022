@@ -41,7 +41,7 @@ class Knot(object):
             self.tail.follow(self.pos)
 
     def follow(self, pos: [int, int]) -> None:
-        if self.is_adjacent(pos) or self.is_overlapping(pos):
+        if self.is_adjacent(pos):
             return
 
         x, y = self.pos
@@ -55,9 +55,6 @@ class Knot(object):
         x, y = pos
         self_x, self_y = self.pos
         return abs(x - self_x) <= 1 and abs(y - self_y) <= 1
-
-    def is_overlapping(self, pos) -> bool:
-        return self.pos == pos
 
 
 def manhattan_distance(a: [int, int], b: [int, int]) -> int:
