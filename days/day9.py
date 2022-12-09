@@ -9,7 +9,7 @@ RIGHT = "R"
 
 
 class Instruction(object):
-    def __init__(self, raw_direction):
+    def __init__(self, raw_direction: str):
         direction, steps = raw_direction.strip().split(" ")
         self.direction = direction
         self.steps = int(steps)
@@ -26,7 +26,7 @@ class Knot(object):
     def __repr__(self):
         return str(self.pos) + " " + str(self.tail)
 
-    def move(self, direction):
+    def move(self, direction: str):
         x, y = self.pos
         if direction == UP:
             self.pos = x, y + 1
@@ -51,7 +51,7 @@ class Knot(object):
         if self.tail is not None:
             self.tail.follow(self.pos)
 
-    def is_adjacent(self, pos) -> bool:
+    def is_adjacent(self, pos: [int, int]) -> bool:
         x, y = pos
         self_x, self_y = self.pos
         return abs(x - self_x) <= 1 and abs(y - self_y) <= 1
