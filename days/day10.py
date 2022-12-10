@@ -44,13 +44,13 @@ class CPU(object):
         self.instruction_counter = 0
         self.current_instruction = cpu_instructions.pop(0)
 
-    def sample(self, register):
+    def sample(self, register) -> int:
         for _ in range(self.sample_counter):
             self.advance_cycle()
         self.sample_counter = self.sample_interval
         return self.registers[register]
 
-    def advance_cycle(self):
+    def advance_cycle(self) -> None:
         if self.current_instruction.cycles == 0:
             self.current_instruction.evaluate()
             self.current_instruction = self.cpu_instructions.pop(0)
@@ -70,7 +70,7 @@ class CRT(object):
         return self.cpu.registers[self.sprite_register]
 
     @staticmethod
-    def overlaps(sprite_location: int, pixel_location: int):
+    def overlaps(sprite_location: int, pixel_location: int) -> bool:
         return abs(sprite_location - pixel_location) <= 1
 
     def get_display_character(self, column: int) -> str:
