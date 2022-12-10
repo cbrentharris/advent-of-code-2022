@@ -1,7 +1,7 @@
 import os
 import days
 from aocd.models import Puzzle, User
-from datetime import date
+from datetime import date, datetime, timezone
 import json
 from pathlib import Path
 
@@ -46,7 +46,7 @@ if __name__ == '__main__':
 """
 
 
-def create_day_files(current_day=date.today(), session=None):
+def create_day_files(current_day=datetime.now(timezone.utc), session=None):
     day_num = str(current_day.day)
     days_dir = os.path.dirname(days.__file__)
     day_input_file_name = os.path.join(days_dir, "input_day" + day_num + ".txt")
