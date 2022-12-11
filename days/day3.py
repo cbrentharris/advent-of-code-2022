@@ -22,11 +22,12 @@ def part_1(rucksack_organization: list[str]) -> str:
     return str(sum(ordinal_values))
 
 
-def part_2(rucksacks: list[str]) -> str:
-    def chunk(l: list[str], n: int) -> Iterable[Iterable[str]]:
-        for i in range(0, len(l), n):
-            yield l[i:i + n]
+def chunk(l: list[str], n: int) -> Iterable[Iterable[str]]:
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
 
+
+def part_2(rucksacks: list[str]) -> str:
     chunked = chunk(rucksacks, 3)
 
     def common_element_finder(grouped: Iterable[str]) -> str:
