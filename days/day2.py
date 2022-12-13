@@ -1,5 +1,5 @@
 from typing import Iterable, Tuple
-from days.local_functools import chain
+from days.local_functools import chain_functions
 
 """
 Rock Paper Scissors
@@ -56,7 +56,7 @@ LOSES = {
 
 
 def part_1(encrypted_strategy_guide: list[str]) -> str:
-    return chain(encrypted_strategy_guide, decrypt, score, sum, str)
+    return chain_functions(encrypted_strategy_guide, decrypt, score, sum, str)
 
 
 def decrypt(encrypted_strategy_guide: list[str]) -> Iterable[Tuple[str, str]]:
@@ -93,7 +93,7 @@ def score(decrypted_strategy_guide: Iterable[Tuple[str, str]]) -> Iterable[int]:
 
 
 def part_2(encrypted_strategy_guide: list[str]) -> str:
-    return chain(encrypted_strategy_guide, decrypt_correctly, score_correctly, sum, str)
+    return chain_functions(encrypted_strategy_guide, decrypt_correctly, score_correctly, sum, str)
 
 
 def decrypt_correctly(encrypted_strategy_guide: list[str]) -> Iterable[Tuple[str, str]]:

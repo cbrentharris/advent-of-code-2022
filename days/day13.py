@@ -3,12 +3,11 @@ Distress Signal
 """
 import json
 from functools import reduce
-from itertools import chain as ichain
+from itertools import chain
 from operator import mul
 from typing import Iterable, Union
 
-from day3 import chunk
-from days.local_functools import chain
+from days.local_functools import chain_functions, chunk
 
 
 class Packet(object):
@@ -40,12 +39,12 @@ class Packet(object):
 
 
 def to_packets(raw_packets: Iterable[str]) -> Iterable[Packet]:
-    return chain(raw_packets,
-                 lambda packets: map(lambda packet: packet.strip(), packets),
-                 lambda packets: filter(lambda packet: packet != "", packets),
-                 lambda packets: map(json.loads, packets),
-                 lambda packets: map(Packet, packets)
-                 )
+    return chain_functions(raw_packets,
+                           lambda packets: map(lambda packet: packet.strip(), packets),
+                           lambda packets: filter(lambda packet: packet != "", packets),
+                           lambda packets: map(json.loads, packets),
+                           lambda packets: map(Packet, packets)
+                           )
 
 
 def part_1(raw_pairs_of_packets: list[str]) -> str:
@@ -59,24 +58,24 @@ def part_1(raw_pairs_of_packets: list[str]) -> str:
 
         return map(compare, chunked_packets)
 
-    return chain(raw_pairs_of_packets,
-                 to_packets,
-                 chunk_into_twos,
-                 in_the_right_order,
-                 list,
-                 enumerate,
-                 lambda packet_pairs: filter(lambda packet_pair: packet_pair[1], packet_pairs),
-                 lambda packet_pairs: map(lambda packet_pair: packet_pair[0] + 1, packet_pairs),
-                 sum,
-                 str)
+    return chain_functions(raw_pairs_of_packets,
+                           to_packets,
+                           chunk_into_twos,
+                           in_the_right_order,
+                           list,
+                           enumerate,
+                           lambda packet_pairs: filter(lambda packet_pair: packet_pair[1], packet_pairs),
+                           lambda packet_pairs: map(lambda packet_pair: packet_pair[0] + 1, packet_pairs),
+                           sum,
+                           str)
 
 
 def part_2(raw_pairs_of_packets: list[str]) -> str:
     divider_packets = {Packet([[2]]), Packet([[6]])}
-    return chain(
+    return chain_functions(
         raw_pairs_of_packets,
         to_packets,
-        lambda packets: ichain(packets, divider_packets),
+        lambda packets: chain(packets, divider_packets),
         sorted,
         enumerate,
         lambda packets: filter(lambda packet_and_index: packet_and_index[1] in divider_packets, packets),

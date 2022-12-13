@@ -5,7 +5,7 @@ from functools import reduce
 from typing import Iterable
 from operator import add, mul, mod
 
-from day3 import chunk
+from days.local_functools import chunk
 import re
 
 

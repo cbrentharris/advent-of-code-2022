@@ -1,6 +1,8 @@
 from functools import reduce
 from typing import Iterable
 
+from days.local_functools import chunk
+
 """
 Rucksack Reorganization
 """
@@ -20,11 +22,6 @@ def part_1(rucksack_organization: list[str]) -> str:
 
     ordinal_values = map(prioritization_valuer, common_letters)
     return str(sum(ordinal_values))
-
-
-def chunk(l: list, n: int) -> Iterable[Iterable]:
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
 
 
 def part_2(rucksacks: list[str]) -> str:
