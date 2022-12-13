@@ -20,32 +20,18 @@ class Packet(object):
 
     def less_than(self, left: Union[list, int], right: Union[list, int]) -> Union[None, bool]:
         if type(left) == type(right) == int:
-            if left < right:
-                return True
-            elif right < left:
-                return False
-            else:
+            if left == right:
                 return None
+            return left < right
         if type(left) == type(right) == list:
-            if len(left) == len(right) == 0:
+            for result in map(lambda index: self.less_than(left[index], right[index]),
+                              range(min(len(left), len(right)))):
+                if result is None:
+                    continue
+                return result
+            if len(left) == len(right):
                 return None
-            if len(left) == 0:
-                return True
-            if len(right) == 0:
-                return False
-            for i in range(len(left)):
-                if i >= len(right):
-                    return False
-                left_child = left[i]
-                right_child = right[i]
-                child_result = self.less_than(left_child, right_child)
-                if child_result:
-                    return True
-                if child_result is not None:
-                    return False
-            if len(left) < len(right):
-                return True
-            return None
+            return len(left) < len(right)
         else:
             if type(left) == int:
                 return self.less_than([left], right)
