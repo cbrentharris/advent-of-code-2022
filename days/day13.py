@@ -18,7 +18,7 @@ class Packet(object):
     def __lt__(self, other):
         return self.less_than(self.items, other.items)
 
-    def less_than(self, left, right) -> Union[None, bool]:
+    def less_than(self, left: Union[list, int], right: Union[list, int]) -> Union[None, bool]:
         if type(left) == type(right) == int:
             if left < right:
                 return True
