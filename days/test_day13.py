@@ -22,11 +22,11 @@ class TestDay13(unittest.TestCase):
             self.assertEqual("5625", part_1_answer)
 
     def test_day13_part_2_example(self) -> None:
-        self.assertEqual("", part_2(example_data))
+        self.assertEqual("140", part_2(example_data))
 
     def test_day13_part_2(self) -> None:
         with open(input_file_name, "r") as input_file:
-            self.assertEqual("", part_2(input_file.readlines()))
+            self.assertEqual("23111", part_2(input_file.readlines()))
 
 
 if __name__ == '__main__':
