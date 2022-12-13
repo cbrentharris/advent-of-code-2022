@@ -22,7 +22,7 @@ def part_1(rucksack_organization: list[str]) -> str:
     return str(sum(ordinal_values))
 
 
-def chunk(l: list[str], n: int) -> Iterable[Iterable[str]]:
+def chunk(l: list, n: int) -> Iterable[Iterable]:
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
