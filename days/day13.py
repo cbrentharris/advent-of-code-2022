@@ -39,12 +39,13 @@ class Packet(object):
 
 
 def to_packets(raw_packets: Iterable[str]) -> Iterable[Packet]:
-    return chain_functions(raw_packets,
-                           lambda packets: map(lambda packet: packet.strip(), packets),
-                           lambda packets: filter(lambda packet: packet != "", packets),
-                           lambda packets: map(json.loads, packets),
-                           lambda packets: map(Packet, packets)
-                           )
+    return chain_functions(
+        raw_packets,
+        lambda packets: map(lambda packet: packet.strip(), packets),
+        lambda packets: filter(lambda packet: packet != "", packets),
+        lambda packets: map(json.loads, packets),
+        lambda packets: map(Packet, packets)
+    )
 
 
 def part_1(raw_pairs_of_packets: list[str]) -> str:
@@ -58,16 +59,17 @@ def part_1(raw_pairs_of_packets: list[str]) -> str:
 
         return map(compare, chunked_packets)
 
-    return chain_functions(raw_pairs_of_packets,
-                           to_packets,
-                           chunk_into_twos,
-                           in_the_right_order,
-                           list,
-                           enumerate,
-                           lambda packet_pairs: filter(lambda packet_pair: packet_pair[1], packet_pairs),
-                           lambda packet_pairs: map(lambda packet_pair: packet_pair[0] + 1, packet_pairs),
-                           sum,
-                           str)
+    return chain_functions(
+        raw_pairs_of_packets,
+        to_packets,
+        chunk_into_twos,
+        in_the_right_order,
+        list,
+        enumerate,
+        lambda packet_pairs: filter(lambda packet_pair: packet_pair[1], packet_pairs),
+        lambda packet_pairs: map(lambda packet_pair: packet_pair[0] + 1, packet_pairs),
+        sum,
+        str)
 
 
 def part_2(raw_pairs_of_packets: list[str]) -> str:
