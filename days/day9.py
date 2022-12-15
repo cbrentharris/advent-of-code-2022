@@ -1,6 +1,7 @@
 """
 Rope Bridge
 """
+from days.coordinate_tools import manhattan_distance
 
 UP = "U"
 DOWN = "D"
@@ -55,12 +56,6 @@ class Knot(object):
         x, y = pos
         self_x, self_y = self.pos
         return abs(x - self_x) <= 1 and abs(y - self_y) <= 1
-
-
-def manhattan_distance(a: [int, int], b: [int, int]) -> int:
-    a_x, a_y = a
-    b_x, b_y = b
-    return abs(a_x - b_x) + abs(a_y - b_y)
 
 
 def part_1(raw_directions: list[str]) -> str:
