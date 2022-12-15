@@ -4,6 +4,8 @@ Beacon Exclusion Zone
 import re
 from typing import Union
 
+from shapely.geometry import Polygon
+
 from coordinate_tools import manhattan_distance
 
 
@@ -33,6 +35,17 @@ class BoundsAlongRow(object):
 
     def __repr__(self):
         return "Left: {}, Right: {}".format(self.left_bound, self.right_bound)
+
+
+class EliminatedArea(object):
+    def __init__(self, polygon: Polygon):
+        self.polygon = polygon
+
+    def intersects(self, other) -> bool:
+        return self.polygon.intersects(other.polygon) or self.polygon.touches(other.polygon)
+
+    def merge(self, other):
+        return EliminatedArea(self.polygon.union(other.polygon))
 
 
 class Sensor(object):
@@ -71,6 +84,11 @@ class Sensor(object):
             return None
         return BoundsAlongRow(min_x, max_x, target_y)
 
+    def eliminated_area(self):
+        distance = manhattan_distance(self.position, self.closest_beacon)
+        x, y = self.position
+        return EliminatedArea(Polygon(((x - distance, y), (x, y + distance), (x + distance, y), (x, y - distance))))
+
 
 """
 In this algorithm, we materialized bounds along an axis
@@ -96,10 +114,10 @@ def find_beacon_position(merged_bounds, lower_bound):
 
 
 def tuning_frequency(beacon_x_position, beacon_y_position):
-    return beacon_x_position * 4000000 + beacon_y_position
+    return int(beacon_x_position * 4000000 + beacon_y_position)
 
 
-def part_2(raw_sensors_and_beacons: list[str], lower_bound: int, upper_bound: int) -> str:
+def part_2_less_performant(raw_sensors_and_beacons: list[str], lower_bound: int, upper_bound: int) -> str:
     sensors = list(map(Sensor, raw_sensors_and_beacons))
     for beacon_y_position in range(lower_bound, upper_bound + 1):
         bounds = list(filter(lambda x: x is not None, [sensor.bounds_with_no_beacons_search(beacon_y_position,
@@ -113,6 +131,19 @@ def part_2(raw_sensors_and_beacons: list[str], lower_bound: int, upper_bound: in
             return str(tuning_frequency(beacon_x_position, beacon_y_position))
 
     raise Exception("Should have found a tuning frequency")
+
+
+def part_2(raw_sensors_and_beacons: list[str], lower_bound: int, upper_bound: int) -> str:
+    sensors = list(map(Sensor, raw_sensors_and_beacons))
+    eliminated_areas = list(map(lambda s: s.eliminated_area(), sensors))
+    while len(eliminated_areas) > 1:
+        eliminated_area = eliminated_areas.pop(0)
+        for i in range(len(eliminated_areas)):
+            next_area = eliminated_areas[i]
+            if eliminated_area.intersects(next_area):
+                eliminated_areas.append(eliminated_area.merge(eliminated_areas.pop(i)))
+    centroid = eliminated_areas[0].polygon.interiors[0].centroid
+    return str(tuning_frequency(centroid.x, centroid.y))
 
 
 def merge(bounds: list[BoundsAlongRow]) -> list[BoundsAlongRow]:
