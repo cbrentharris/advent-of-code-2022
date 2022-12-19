@@ -17,11 +17,14 @@ class TestDay18(unittest.TestCase):
             self.assertEqual("3396", part_1(input_file.readlines()))
 
     def test_day18_part_2_example(self) -> None:
-        self.assertEqual("", part_2(example_data))
+        self.assertEqual("58", part_2(example_data))
 
     def test_day18_part_2(self) -> None:
         with open(input_file_name, "r") as input_file:
-            self.assertEqual("", part_2(input_file.readlines()))
+            answer = part_2(input_file.readlines())
+            self.assertGreater("3252", answer)
+            self.assertLess("2029", answer)
+            self.assertEqual("2044", answer)
 
 
 if __name__ == '__main__':
