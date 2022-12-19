@@ -78,8 +78,7 @@ def part_1(raw_obsidian_pixels: list[str]) -> str:
 
 def part_2(raw_obsidian_pixels: list[str]) -> str:
     obsidian_pixels = set(map(parse, raw_obsidian_pixels))
-    area = surface_area(obsidian_pixels)
-    return str(area - air_pocket_area(obsidian_pixels))
+    return str(surface_area(obsidian_pixels) - air_pocket_area(obsidian_pixels))
 
 
 def surface_area(obsidian_pixels: set[[int, int, int]]) -> int:
