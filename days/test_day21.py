@@ -14,10 +14,10 @@ class TestDay21(unittest.TestCase):
 
     def test_day21_part_1(self) -> None:
         with open(input_file_name, "r") as input_file:
-            self.assertEqual("", part_1(input_file.readlines()))
+            self.assertEqual("85616733059734.0", part_1(input_file.readlines()))
 
     def test_day21_part_2_example(self) -> None:
-        self.assertEqual("", part_2(example_data))
+        self.assertEqual("301.0", part_2(example_data))
 
     def test_day21_part_2(self) -> None:
         with open(input_file_name, "r") as input_file:
